@@ -1,5 +1,5 @@
 import restaurantList from "../Constants"
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 //  RESTAURANT CARD
 const RestaurantCard = ({
@@ -16,7 +16,7 @@ const RestaurantCard = ({
         <img
           src={
             "https://res.cloudinary.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_508,h_320,c_fill/"  
-            + cloudinaryImageId
+              +cloudinaryImageId
           }
         />
   
@@ -50,8 +50,47 @@ const RestaurantCard = ({
     const [searchText, setSearchText] = useState("");
     const [restaurants, setRestaurants] = useState(restaurantList);
 
+    useEffect(() => {
+
+      // API call
+ 
+      getRestaurants();
+      }, []);
+ 
+  
+ 
+    async function getRestaurants() {
+ 
+      const data = await fetch(
+ 
+        "https://www.swiggy.com/dapi/restaurants/list/v5?lat=12.9351929&lng=77.62448069999999&page_type=DESKTOP_WEB_LISTING"
+ 
+      );
+ 
+      const json = await data.json();
+ 
+      console.log(json);
+ 
+      // Optional Chaining
+ 
+      setRestaurants(json?.data?.cards[2]?.data?.data?.cards);
+ 
+ 
+    }
+ 
+  
+ 
+    console.log("render");
+
     return (
+
+      
       <>
+
+
+   
+
+
         {/* SEARCH BAR */}
 
 
